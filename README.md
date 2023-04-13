@@ -10,12 +10,12 @@
 #
 # ERD Model
 
-![ERD](/ERD.png)
+![ERD](ERD.png)
 
 
 ## Brief Explanation
 #
-
+- A team can have multiple managers in the tenure of 2016-2022
 
 # Tables Created
 
@@ -26,15 +26,15 @@
 
 ## Query 1
 
-![query 1](/screenshots/q1.JPG)
+![query 1](screenshots/q1.JPG)
 #
 ## Query 2
 
-![query 2](/screenshots/q2.JPG)
+![query 2](screenshots/q2.JPG)
 #
 ## Query 3
 
-![query 3](/screenshots/q3.JPG)
+![query 3](screenshots/q3.JPG)
 #
 ## Query 4
 ![query 4](screenshots/q4.JPG)
