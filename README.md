@@ -10,14 +10,11 @@
 #
 # ERD Model
 
-
+![ERD](/ERD.png)
 
 
 ## Brief Explanation
 #
-
-
-# Relational Model
 
 
 # Tables Created
