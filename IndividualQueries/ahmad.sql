@@ -21,4 +21,3 @@ inner join Teams on  Teams.ID =Matches.HOME_TEAM_ID
 where HOME_TEAM_SCORE>AWAY_TEAM_SCORE
 group by HOME_TEAM_ID,Teams.TEAM_NAME
 having count(*)>3
-
