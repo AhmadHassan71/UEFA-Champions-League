@@ -26,15 +26,15 @@
 
 ## Query 1
 
-![query 1](screenshots/q1.JPG)
+![query 1](screenshots/q1.png)
 #
 ## Query 2
 
-![query 2](screenshots/q2.JPG)
+![query 2](screenshots/q2.png)
 #
 ## Query 3
 
-![query 3](screenshots/q3.JPG)
+![query 3](screenshots/q3.png)
 #
 ## Query 4
 ![query 4](screenshots/q4.JPG)
@@ -46,13 +46,13 @@
 
 ## Query 6
 
-![query 6](screenshots/q6.JPG)
+![query 6](screenshots/q6.png)
 #
 
 
 ## Query 7
 
-![query 7](screenshots/q7.JPG)
+![query 7](screenshots/q7.png)
 #
 
 
