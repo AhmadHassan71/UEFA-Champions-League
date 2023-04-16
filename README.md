@@ -58,7 +58,7 @@
 
 ## Query 8
 
-![query 8](screenshots/q8.JPG)
+![query 8](screenshots/q8.png)
 #
 
 

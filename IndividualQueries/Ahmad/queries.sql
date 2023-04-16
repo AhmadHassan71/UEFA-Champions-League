@@ -47,3 +47,18 @@ group by HOME_TEAM_ID,home.TEAM_NAME
 HAVING (ROUND((SUM(CASE WHEN homeL.COUNTRY = 'Russia' AND Matches.HOME_TEAM_SCORE > Matches.AWAY_TEAM_SCORE THEN 1 
 	WHEN awayL.COUNTRY = 'Russia' AND AWAY_TEAM_SCORE > HOME_TEAM_SCORE THEN 1 
     ELSE 0 END) / CAST(COUNT(*) AS FLOAT)) * 100, 2) < 50);
+
+--q8
+
+select s.NAME as stadium_wrl50, SUM(case when home.ID =Matches.HOME_TEAM_ID and HOME_TEAM_SCORE>AWAY_TEAM_SCORE then 1
+	when AWAY_TEAM_ID=Matches.AWAY_TEAM_ID and AWAY_TEAM_SCORE>HOME_TEAM_SCORE then 1
+	else 0 END) as total_matches_won
+from Matches
+join Teams as home on home.ID =HOME_TEAM_ID
+join Teams as away on away.ID = AWAY_TEAM_ID
+join Stadiums as s on s.ID = home.ID
+where s.ID in (select STADIUM_ID from Matches group by STADIUM_ID having count(*)>6)
+group by STADIUM_ID,s.NAME
+having (round((SUM(case when home.ID =Matches.HOME_TEAM_ID and HOME_TEAM_SCORE>AWAY_TEAM_SCORE then 1
+	when AWAY_TEAM_ID=Matches.AWAY_TEAM_ID and AWAY_TEAM_SCORE>HOME_TEAM_SCORE then 1
+	else 0 END)/count(*))*100,2)<50);
