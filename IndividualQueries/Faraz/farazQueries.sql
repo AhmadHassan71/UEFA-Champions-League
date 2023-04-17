@@ -40,3 +40,15 @@ JOIN location l ON s.city = l.city
 GROUP BY l.country
 ORDER BY num_players DESC;
 
+
+--query 11  stadiums with greater left footed shots than right footed
+
+SELECT s.name, s.city, COUNT(CASE WHEN p.foot = 'L' THEN 1 ELSE NULL END) AS num_left_shots,
+       COUNT(CASE WHEN p.foot = 'R' THEN 1 ELSE NULL END) AS num_right_shots
+FROM stadiums s
+JOIN matches m ON s.id = m.stadium_id
+JOIN goals g ON m.match_id = g.match_id
+JOIN players p ON g.pid = p.PLAYER_ID
+GROUP BY s.name, s.city
+HAVING COUNT(CASE WHEN p.foot = 'L' THEN 1 ELSE NULL END) > COUNT(CASE WHEN p.foot = 'R' THEN 1 ELSE NULL END);
+
