@@ -62,3 +62,31 @@ group by STADIUM_ID,s.NAME
 having (round((SUM(case when home.ID =Matches.HOME_TEAM_ID and HOME_TEAM_SCORE>AWAY_TEAM_SCORE then 1
 	when AWAY_TEAM_ID=Matches.AWAY_TEAM_ID and AWAY_TEAM_SCORE>HOME_TEAM_SCORE then 1
 	else 0 END)/count(*))*100,2)<50);
+
+--q11 stadium having more left footed shots than right footed shots
+select Stadiums.NAME, COUNT(case when Goals.GOAL_DESC='left-footed shot' then 1 END) as left_footed_shots, COUNT(case when Goals.GOAL_DESC='right-footed shot' then 1 END) as right_footed_shots
+from Stadiums
+join Matches on Matches.STADIUM_ID=stadiums.ID
+join Goals on Matches.MATCH_ID=Goals.MATCH_ID
+Group by Stadiums.NAME
+having   COUNT(case when Goals.GOAL_DESC='left-footed shot' then 1 END)>COUNT(case when Goals.GOAL_DESC='right-footed shot' then 1 END)
+
+--q12 All matches that were played in country with maximum cumulative stadium seating capacity order by recent first.
+
+select Matches.MATCH_ID, Matches.DATE_TIME,Stadiums.NAME,Location.COUNTRY,SUM(Stadiums.CAPACITY) as total_capacity
+from Matches
+join Stadiums on Matches.STADIUM_ID=Stadiums.ID
+join Location on Stadiums.CITY = Location.CITY
+group by Location.COUNTRY,Matches.MATCH_ID,Matches.DATE_TIME,Stadiums.NAME,Stadiums.CAPACITY
+having SUM(Stadiums.CAPACITY) =(
+	select top 1(Stadiums.CAPACITY)
+	from (
+		select SUM(Stadiums.CAPACITY) as total_capacity
+		from Stadiums
+		Join Location on STADIUMs.CITY=Location.CITY
+		group by Location.COUNTRY
+		) as commulative_capacity
+		order by total_capacity desc
+		)
+order by Matches.DATE_TIME desc
+--order by CONVERT(DATETIME, matches.DATE_TIME, 113) desc
