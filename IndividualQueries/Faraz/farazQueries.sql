@@ -66,4 +66,14 @@ ORDER BY num_combinations DESC
 
 --query 14 team having more header percentage
 
+ 
 
+--query 15 most successfull manager
+
+
+SELECT top 1 m.first_name, m.last_name, ma.SEASON, COUNT(*) AS total_wins
+FROM matches ma
+JOIN managers m ON ma.home_team_id = m.team_id OR ma.away_team_id = m.team_id
+WHERE ma.season BETWEEN '2016' AND '2022' AND ma.home_team_score != ma.away_team_score
+GROUP BY m.first_name, m.last_name, ma.SEASON
+ORDER BY total_wins DESC
