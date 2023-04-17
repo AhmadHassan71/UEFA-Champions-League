@@ -81,19 +81,20 @@ ORDER BY total_wins DESC
 
 
 --query 16 most successful teams per season
-SELECT m.season, t.team_name AS winner, s.score
+SELECT m.season, t.team_name AS winner, max_score
 FROM matches m
 JOIN (
-    SELECT season, MAX(home_team_score) AS score, home_team_id AS team_id
-    FROM matches
-    GROUP BY season, home_team_id
-    UNION
-    SELECT season, MAX(away_team_score) AS score, away_team_id AS team_id
-    FROM matches
-    GROUP BY season, away_team_id
-) AS s
-ON m.season = s.season AND (m.home_team_score = s.score OR m.away_team_score = s.score) AND (m.home_team_id = s.team_id OR m.away_team_id = s.team_id)
-JOIN teams t ON t.ID = s.team_id
-group by m.SEASON, t.TEAM_NAME, s.score
-ORDER BY s.score;
-
+    SELECT season, MAX(score) AS max_score
+    FROM (
+        SELECT season, home_team_score AS score
+        FROM matches
+        UNION ALL
+        SELECT season, away_team_score AS score
+        FROM matches
+    ) AS scores
+    GROUP BY season
+) AS max_scores
+ON m.season = max_scores.season AND (m.home_team_score = max_scores.max_score OR m.away_team_score = max_scores.max_score)
+JOIN teams t ON (m.home_team_id = t.ID OR m.away_team_id = t.ID)
+GROUP BY m.season, t.team_name, max_score
+ORDER BY m.season;
