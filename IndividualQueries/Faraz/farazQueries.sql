@@ -53,6 +53,7 @@ GROUP BY s.name, s.city
 HAVING COUNT(CASE WHEN p.foot = 'L' THEN 1 ELSE NULL END) > COUNT(CASE WHEN p.foot = 'R' THEN 1 ELSE NULL END);
 
 
+
 --query 13 player duo with greatest number of goal assist combo
 
 SELECT  p1.first_name, p1.last_name, p1.DOB,p1.NATIONALITY, p2.first_name, p2.last_name, p2.DOB, p2.NATIONALITY, COUNT(*) as num_combinations
@@ -66,7 +67,7 @@ ORDER BY num_combinations DESC
 
 --query 14 team having more header percentage
 
- 
+
 
 --query 15 most successfull manager
 
@@ -77,3 +78,22 @@ JOIN managers m ON ma.home_team_id = m.team_id OR ma.away_team_id = m.team_id
 WHERE ma.season BETWEEN '2016' AND '2022' AND ma.home_team_score != ma.away_team_score
 GROUP BY m.first_name, m.last_name, ma.SEASON
 ORDER BY total_wins DESC
+
+
+--query 16 most successful teams per season
+SELECT m.season, t.team_name AS winner, s.score
+FROM matches m
+JOIN (
+    SELECT season, MAX(home_team_score) AS score, home_team_id AS team_id
+    FROM matches
+    GROUP BY season, home_team_id
+    UNION
+    SELECT season, MAX(away_team_score) AS score, away_team_id AS team_id
+    FROM matches
+    GROUP BY season, away_team_id
+) AS s
+ON m.season = s.season AND (m.home_team_score = s.score OR m.away_team_score = s.score) AND (m.home_team_id = s.team_id OR m.away_team_id = s.team_id)
+JOIN teams t ON t.ID = s.team_id
+group by m.SEASON, t.TEAM_NAME, s.score
+ORDER BY s.score;
+
