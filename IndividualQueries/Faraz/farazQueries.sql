@@ -52,3 +52,18 @@ JOIN players p ON g.pid = p.PLAYER_ID
 GROUP BY s.name, s.city
 HAVING COUNT(CASE WHEN p.foot = 'L' THEN 1 ELSE NULL END) > COUNT(CASE WHEN p.foot = 'R' THEN 1 ELSE NULL END);
 
+
+--query 13 player duo with greatest number of goal assist combo
+
+SELECT  p1.first_name, p1.last_name, p1.DOB,p1.NATIONALITY, p2.first_name, p2.last_name, p2.DOB, p2.NATIONALITY, COUNT(*) as num_combinations
+FROM goals g1
+JOIN players p1 ON g1.pid = p1.PLAYER_ID
+JOIN goals g2 ON g1.match_id = g2.match_id AND g1.pid != g2.pid
+JOIN players p2 ON g2.pid = p2.PLAYER_ID
+WHERE g1.assist = p2.PLAYER_ID AND g2.assist = p1.PLAYER_ID
+GROUP BY  p1.first_name, p1.last_name, p1.DOB,p1.NATIONALITY, p2.first_name, p2.last_name, p2.DOB, p2.NATIONALITY
+ORDER BY num_combinations DESC
+
+--query 14 team having more header percentage
+
+
