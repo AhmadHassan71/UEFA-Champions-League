@@ -67,6 +67,16 @@ ORDER BY num_combinations DESC
 
 --query 14 team having more header percentage
 
+SELECT t.ID,t.TEAM_NAME, AVG(CASE WHEN g.goal_desc = 'header' THEN 1 ELSE 0 END) AS header_goal_percentage
+FROM teams t
+INNER JOIN players p ON t.ID = p.team_id
+INNER JOIN goals g ON p.PLAYER_ID = g.pid
+INNER JOIN matches m ON g.match_id = m.match_id
+WHERE m.season = '2020-2021'
+GROUP BY t.ID, t.TEAM_NAME, g.GOAL_DESC
+HAVING COUNT(CASE WHEN g.goal_desc = 'header' THEN 1 ELSE NULL END) > 5
+ORDER BY header_goal_percentage asc;
+
 
 
 --query 15 most successfull manager
