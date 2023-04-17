@@ -1,4 +1,5 @@
 
+
 --query 4 teams with foreign managers
 
 
@@ -29,4 +30,3 @@ where Stadiums.CAPACITY>60000
 
 
  --query 10
-
