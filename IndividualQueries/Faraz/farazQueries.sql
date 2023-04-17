@@ -29,4 +29,14 @@ where Stadiums.CAPACITY>60000
  order by leftFootedGoals desc;
 
 
- --query 10
+ --query 10 the country with max number of players with at least one goal
+
+SELECT top 1 l.country, COUNT(DISTINCT p.PLAYER_ID) AS num_players
+FROM players p
+JOIN goals g ON p.PLAYER_ID = g.pid
+JOIN teams t ON p.team_id = t.ID
+JOIN stadiums s ON t.home_stadium_id = s.ID
+JOIN location l ON s.city = l.city
+GROUP BY l.country
+ORDER BY num_players DESC;
+
